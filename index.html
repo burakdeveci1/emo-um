@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deveciler Malikhanesi: Kader Anı</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #game-container {
+            background-color: #16213e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            max-width: 650px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #e94560;
+        }
+        h1 { color: #e94560; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        p { line-height: 1.7; font-size: 1.15em; min-height: 80px; }
+        .options { margin-top: 30px; display: flex; flex-direction: column; gap: 12px; }
+        button {
+            padding: 15px 25px;
+            background-color: #0f3460;
+            color: white;
+            border: 1px solid #e94560;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #e94560;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.4);
+        }
+        #visual {
+            font-size: 60px;
+            margin-bottom: 20px;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>Deveciler Malikhanesi</h1>
+    <div id="visual">🏰</div>
+    <div id="story-text">
+        <p>Burak ve Emoş, malikhanenin tozlu rafları ve loş ışıkları arasında dolaşırken, Burak'ın cebindeki yüzük kutusu giderek ağırlaşıyor...</p>
+    </div>
+    <div class="options" id="options">
+        <button onclick="changeScene('giris')">Maceraya Başla</button>
+    </div>
+</div>
+
+<script>
+    const scenes = {
+        giris: {
+            text: "Kütüphanenin balkonunda oturuyorsunuz. Hava serin. Burak ceketini Emoş'un omuzlarına bıraktı. 'Emoş,' dedi sesi titreyerek, 'Sana anlatmam gereken bir şey var.'",
+            visual: "🌙",
+            options: [
+                { text: "Duygularını sonuna kadar aç", next: "itiraf" },
+                { text: "Önce biraz şakalaş", next: "saka" }
+            ]
+        },
+        saka: {
+            text: "Burak komik bir anı anlatıp Emoş'u güldürdü. Ama Emoş'un gözlerinin içine baktığında artık şaka zamanının geçtiğini anladı.",
+            visual: "😂",
+            options: [
+                { text: "Ciddileş ve diz çök", next: "itiraf" }
+            ]
+        },
+        itiraf: {
+            text: "Burak aniden diz çöktü. 'Emoş, Deveciler Malikhanesi şahidim olsun; ömrümün geri kalanını seninle geçirmek istiyorum. Benimle evlenir misin?'",
+            visual: "💍",
+            options: [
+                { text: "Evet! Sonsuza kadar!", next: "evlilik" },
+                { text: "Hayır, hazır değilim...", next: "reddedilme" }
+            ]
+        },
+        evlilik: {
+            text: "Emoş gözyaşları içinde 'Evet!' diye haykırdı. Malikhanenin bahçesinde dillere destan bir düğün yaptılar. Burak ve Emoş, Deveciler Malikhanesi'nin yeni sahipleri olarak sonsuza dek mutlu yaşadılar.",
+            visual: "👰🤵",
+            options: [
+                { text: "Mutluluğu Tekrar Yaşa", next: "giris" }
+            ]
+        },
+        reddedilme: {
+            text: "Emoş başını yere eğdi, 'Üzgünüm Burak, ben o hislerde değilim.' Burak'ın dünyası başına yıkıldı. O gece malikhaneyi terk etti, bir gemiye atladı ve çok uzak diyarlara, izini kimsenin bulamayacağı bir yere gitti...",
+            visual: "🚢",
+            options: [
+                { text: "Kaderi Değiştir (Baştan Başla)", next: "giris" }
+            ]
+        }
+    };
+
+    function changeScene(sceneKey) {
+        const scene = scenes[sceneKey];
+        const textElement = document.getElementById('story-text');
+        const optionsElement = document.getElementById('options');
+        const visualElement = document.getElementById('visual');
+        
+        textElement.innerHTML = `<p>${scene.text}</p>`;
+        visualElement.innerText = scene.visual;
+        optionsElement.innerHTML = '';
+        
+        scene.options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.innerText = option.text;
+            btn.onclick = () => changeScene(option.next);
+            optionsElement.appendChild(btn);
+        });
+    }
+</script>
+
+</body>
+</html>
